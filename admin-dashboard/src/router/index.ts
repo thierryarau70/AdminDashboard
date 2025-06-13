@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/login',
     component: LoginView,
-    meta: { layout: false } // sem sidebar/header
+    meta: { layout: false } 
   },
    {
     path: '/register',
@@ -48,7 +48,6 @@ const router = createRouter({
   routes
 })
 
-// Protege rotas autenticadas
 router.beforeEach((to) => {
   const loggedIn = localStorage.getItem('loggedIn') === 'true'
   if (to.meta.requiresAuth && !loggedIn) {

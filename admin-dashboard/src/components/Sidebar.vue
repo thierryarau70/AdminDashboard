@@ -58,7 +58,7 @@ function logout() {
 .btn-logout {
   padding: 10px 16px;
   margin: 40px;
-  background-color: #e74c3c;
+  background-color: #1abc9c;
   color: white;
   border: none;
   border-radius: 4px;

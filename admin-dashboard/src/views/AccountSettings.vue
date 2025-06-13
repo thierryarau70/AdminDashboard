@@ -106,7 +106,7 @@ button:hover {
 
 .voltar-btn {
   background-color: #8f8d8d;
-  margin-top: 20px;
+  text-align: center;
 }
 .voltar-btn:hover {
   background-color: #7c7878;

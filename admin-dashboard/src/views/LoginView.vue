@@ -22,7 +22,7 @@
           v-model="password"
           type="password"
           name="password"
-          required
+          requiredF
           placeholder="Digite sua senha"
           autocomplete="current-password"
         />
@@ -49,18 +49,21 @@ const password = ref('')
 const error = ref(false)
 const router = useRouter()
 
+
 function login() {
   const users = JSON.parse(localStorage.getItem('users') || '[]')
   const match = users.find((user: any) => user.email === email.value && user.password === password.value)
 
   if (match) {
     localStorage.setItem('loggedIn', 'true')
+    localStorage.setItem('currentUser', JSON.stringify(match))
     error.value = false
     router.push('/')
   } else {
     error.value = true
   }
 }
+
 </script>
 
 <style scoped>

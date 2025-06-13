@@ -78,7 +78,6 @@ function register() {
   error.value = false
   success.value = true
 
-  // Redireciona após 1s
   setTimeout(() => {
     router.push('/login')
   }, 1000)
