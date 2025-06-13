@@ -4,6 +4,7 @@ import Users from '../views/Users.vue'
 import Settings from '../views/Settings.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import AccountSettings from '../views/AccountSettings.vue'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
   {
     path: '/settings',
     component: Settings,
+    meta: { requiresAuth: true }
+  },
+   {
+    path: '/account',
+    component: AccountSettings,
     meta: { requiresAuth: true }
   },
   {
