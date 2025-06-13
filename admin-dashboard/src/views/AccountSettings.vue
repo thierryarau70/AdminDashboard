@@ -1,5 +1,7 @@
 <template>
+    
   <div class="settings-container">
+     <button class="voltar-btn" @click="voltar">Voltar</button>
     <h2>Configurações da Conta</h2>
 
     <form @submit.prevent="updateInfo">
@@ -56,6 +58,10 @@ function confirmDelete() {
     router.push('/login')
   }
 }
+
+function voltar() {
+  router.push('/settings')
+}
 </script>
 
 <style scoped>
@@ -74,9 +80,10 @@ h2 {
   margin-bottom: 16px;
 }
 input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   font-size: 14px;
+  text-align: center;
 }
 button {
   padding: 10px 16px;
@@ -95,5 +102,13 @@ button:hover {
 }
 .delete-btn:hover {
   background-color: #c0392b;
+}
+
+.voltar-btn {
+  background-color: #8f8d8d;
+  margin-top: 20px;
+}
+.voltar-btn:hover {
+  background-color: #7c7878;
 }
 </style>
