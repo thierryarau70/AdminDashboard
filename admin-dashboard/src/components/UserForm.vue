@@ -19,17 +19,18 @@
         placeholder="Digite a senha"
       />
     </div>
-    <div class="buttons">
-    <button type="submit">{{ isEditing ? 'Salvar' : 'Adicionar' }}</button>
-    <button type="button" @click="$emit('cancel')">Cancelar</button>
-    </div>
-    <div class="">
+     <div class="form-group">
  <select v-model="form.role">
   <option value="user">Usuário Padrão</option>
   <option value="admin">Administrador</option>
 </select>
 
     </div>
+    <div class="buttons">
+    <button type="submit">{{ isEditing ? 'Salvar' : 'Adicionar' }}</button>
+    <button type="button" @click="$emit('cancel')">Cancelar</button>
+    </div>
+   
    
   </form>
 </template>

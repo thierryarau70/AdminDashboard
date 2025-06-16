@@ -33,7 +33,7 @@
 
 
 <script setup lang="ts">
-import { useAuth } from '../components/useAuth'
+import { useAuth } from '../auth/useAuth'
 const { isAdmin } = useAuth()
 
 

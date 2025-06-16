@@ -22,7 +22,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import UserForm from '../components/UserForm.vue'
 import UserTable from '../components/UserTable.vue'
-import { useAuth } from '../components/useAuth'
+import { useAuth } from '../auth/useAuth'
 
 interface User {
   name: string
