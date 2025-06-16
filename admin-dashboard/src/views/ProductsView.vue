@@ -8,7 +8,14 @@
 
 
     <ProductForm v-if="showForm" @save="handleSaveProduct" />
-<ProductTable :products="products" :canEdit="isAdmin" @delete="handleDelete" />
+<ProductTable
+  :products="products"
+  :canEdit="isAdmin"
+  :canBuy="isUser"
+  @delete="handleDelete"
+  @buy="handleBuy"
+/>
+
 
 
   </div>
@@ -20,6 +27,10 @@ import ProductForm from '../components/ProductForm.vue'
 import ProductTable from '../components/ProductTable.vue'
 import { useAuth } from '../auth/useAuth'
 
+
+const { isAdmin } = useAuth()
+const isUser = !isAdmin
+
 interface Product {
   name: string
   category: string
@@ -30,7 +41,6 @@ interface Product {
 
 const showForm = ref(false)
 const products = ref<Product[]>([])
-const { isAdmin } = useAuth()  // pega se é admin
 
 function handleSaveProduct(product: Product) {
   products.value.push(product)
@@ -40,6 +50,15 @@ function handleSaveProduct(product: Product) {
 function handleDelete(name: string) {
   products.value = products.value.filter((p) => p.name !== name)
 }
+
+function handleBuy(name: string) {
+  const product = products.value.find(p => p.name === name)
+  if (product && product.stock > 0) {
+    product.stock -= 1
+    // Atualiza o localStorage automaticamente pelo watch que você já tem
+  }
+}
+
 
 onMounted(() => {
   const stored = localStorage.getItem('products')

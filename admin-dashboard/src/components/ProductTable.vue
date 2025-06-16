@@ -19,7 +19,25 @@
         <td>R$ {{ product.price.toFixed(2) }}</td>
         <td>{{ product.stock }}</td>
        <td>
-  <button v-if="canEdit" @click="$emit('delete', product.name)">Deletar</button>
+  <button
+    v-if="canEdit"
+    class="delete-button"
+    @click="$emit('delete', product.name)"
+  >
+    Deletar
+  </button>
+
+  <button
+    v-if="canBuy && product.stock > 0"
+    class="buy-button"
+    @click="$emit('buy', product.name)"
+  >
+    Comprar
+  </button>
+
+  <span v-if="canBuy && product.stock === 0" style="color: gray; font-style: italic;">
+    Esgotado
+  </span>
 </td>
 
 
@@ -29,6 +47,11 @@
 </template>
 
 <script setup lang="ts">
+import { useAuth } from '../auth/useAuth';
+
+const { isAdmin } = useAuth()
+const isUser = !isAdmin
+
 defineProps<{
   products: {
     name: string
@@ -37,12 +60,15 @@ defineProps<{
     price: number
     stock: number
   }[],
-  canEdit: boolean
+  canEdit: boolean,
+  canBuy: boolean
 }>()
+
 
 
 defineEmits<{
   (e: 'delete', name: string): void
+    (e: 'buy', name: string): void
 }>()
 </script>
 
@@ -75,4 +101,21 @@ th {
 .delete-button:hover {
   background-color: #c0392b;
 }
+
+.buy-button {
+  background-color: #2ecc71;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 6px;
+  transition: background-color 0.2s;
+}
+
+.buy-button:hover {
+  background-color: #27ae60;
+}
+
 </style>
