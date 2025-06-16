@@ -35,6 +35,15 @@
     Comprar
   </button>
 
+<!-- <button
+  v-if="canEdit"
+  class="edit-button"
+  @click="$emit('edit', product)"
+>
+  Editar
+</button> -->
+
+
   <span v-if="canBuy && product.stock === 0" style="color: gray; font-style: italic;">
     Esgotado
   </span>
@@ -68,8 +77,17 @@ defineProps<{
 
 defineEmits<{
   (e: 'delete', name: string): void
-    (e: 'buy', name: string): void
+  (e: 'buy', name: string): void
+  (e: 'edit', product: {
+    name: string
+    category: string
+    subcategory: string
+    price: number
+    stock: number
+  }): void
 }>()
+
+
 </script>
 
 <style scoped>
@@ -100,6 +118,21 @@ th {
 
 .delete-button:hover {
   background-color: #c0392b;
+}
+
+.edit-button {
+  background-color: #ff9100;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #9c7b1e;
 }
 
 .buy-button {

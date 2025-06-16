@@ -40,14 +40,29 @@ import { ref } from 'vue'
 
 const emitSave = defineEmits(['save'])
 
-const product = ref({
+const props = defineProps<{
+  initialProduct?: {
+    name: string
+    category: string
+    subcategory: string
+    price: number
+    stock: number
+  }
+}>()
+
+const defaultProduct = {
   name: '',
   category: '',
   subcategory: '',
   price: 0,
   stock: 0
-})
+}
 
+const product = ref({ ...defaultProduct })
+
+if (props.initialProduct) {
+  product.value = { ...props.initialProduct }
+}
 
 const categories: Record<string, string[]> = {
   Eletrônicos: ['Celulares', 'Computadores', 'Acessórios'],
@@ -61,14 +76,12 @@ function updateSubcategories() {
 
 function saveProduct() {
   emitSave('save', { ...product.value })
-  product.value = {
-    name: '',
-    category: '',
-    subcategory: '',
-    price: 0,
-    stock: 0
+
+  if (!props.initialProduct) {
+    product.value = { ...defaultProduct }
   }
 }
+
 </script>
 
 <style scoped>
