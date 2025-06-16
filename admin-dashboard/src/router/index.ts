@@ -10,9 +10,9 @@ const routes = [
   {
     path: '/login',
     component: LoginView,
-    meta: { layout: false } 
+    meta: { layout: false }
   },
-   {
+  {
     path: '/register',
     component: RegisterView,
     meta: { layout: false }
@@ -32,7 +32,7 @@ const routes = [
     component: Settings,
     meta: { requiresAuth: true }
   },
-   {
+  {
     path: '/account',
     component: AccountSettings,
     meta: { requiresAuth: true }
@@ -50,12 +50,16 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const loggedIn = localStorage.getItem('loggedIn') === 'true'
+
   if (to.meta.requiresAuth && !loggedIn) {
     return '/login'
   }
-  if (to.path === '/login' && loggedIn) {
+
+  if ((to.path === '/login' || to.path === '/register') && loggedIn) {
     return '/'
   }
+
+  return true
 })
 
 export default router

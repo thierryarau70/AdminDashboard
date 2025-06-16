@@ -6,19 +6,19 @@
 
     <div class="spacer"></div>
 
-    <button class="btn-logout" @click="logout">Sair</button>
+    <!-- <button class="btn-logout" @click="logout">Sair</button> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
-function logout() {
-  localStorage.removeItem('loggedIn')
-  router.push('/login')
-}
+// function logout() {
+//   localStorage.removeItem('loggedIn')
+//   router.push('/login')
+// }
 </script>
 
 <style scoped>
