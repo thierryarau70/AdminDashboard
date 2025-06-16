@@ -7,6 +7,8 @@
         <th>Subcategoria</th>
         <th>Preço</th>
         <th>Estoque</th>
+        <th>Ação</th>
+
       </tr>
     </thead>
     <tbody>
@@ -16,6 +18,11 @@
         <td>{{ product.subcategory }}</td>
         <td>R$ {{ product.price.toFixed(2) }}</td>
         <td>{{ product.stock }}</td>
+       <td>
+  <button v-if="canEdit" @click="$emit('delete', product.name)">Deletar</button>
+</td>
+
+
       </tr>
     </tbody>
   </table>
@@ -29,7 +36,13 @@ defineProps<{
     subcategory: string
     price: number
     stock: number
-  }[]
+  }[],
+  canEdit: boolean
+}>()
+
+
+defineEmits<{
+  (e: 'delete', name: string): void
 }>()
 </script>
 
@@ -46,5 +59,20 @@ th, td {
 th {
   background-color: #ecf0f1;
   text-align: left;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
 }
 </style>
