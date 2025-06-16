@@ -3,6 +3,7 @@
     <router-link to="/" class="btn-link">Dashboard</router-link>
     <router-link to="/users" class="btn-link">Usuários</router-link>
     <router-link to="/settings" class="btn-link">Configurações</router-link>
+    <router-link to="/products">Produtos</router-link>
 
     <div class="spacer"></div>
 

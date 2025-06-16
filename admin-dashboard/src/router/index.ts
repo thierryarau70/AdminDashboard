@@ -5,6 +5,7 @@ import Settings from '../views/Settings.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import AccountSettings from '../views/AccountSettings.vue'
+import ProductsView from '../views/ProductsView.vue'
 
 const routes = [
   {
@@ -40,7 +41,12 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     redirect: '/'
-  }
+  },
+  {
+  path: '/products',
+  component: ProductsView,
+  meta: { requiresAuth: true }
+}
 ]
 
 const router = createRouter({
