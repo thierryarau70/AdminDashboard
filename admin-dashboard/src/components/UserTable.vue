@@ -1,32 +1,53 @@
 <template>
-  <table>
-    <thead>
+  <table v-if="isAdmin">  <thead>
       <tr>
         <th>Nome</th>
         <th>Email</th>
-        <th>Ações</th>
+        <th>Senha</th>
+        <th>permissão</th>
+        <th>Ação</th>
+
       </tr>
     </thead>
     <tbody>
-      <tr v-if="users.length === 0">
-        <td colspan="3" class="empty-message">Nenhum usuário cadastrado.</td>
-      </tr>
-      <tr v-else v-for="user in users" :key="user.email">
+      <tr v-for="user in users" :key="user.email">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>
+          <span>{{ user.password }}</span>
+        </td>
+         <td> {{ user.role }}</td>
+        <td>
+       
           <button @click="$emit('edit', user)">✏️</button>
           <button @click="$emit('delete', user.email)">🗑️</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <p v-else class="not-allowed">Você não tem permissão para ver esta tabela.</p>
 </template>
 
+
+
+
 <script setup lang="ts">
+import { useAuth } from '../auth/useAuth'
+const { isAdmin } = useAuth()
+
+
+
+
+
+
+
 interface User {
   name: string
   email: string
+  password: string
+  role: 'admin' | 'user'
+
 }
 
 defineProps<{ users: User[] }>()
@@ -66,4 +87,12 @@ button:hover {
   color: #888;
   font-style: italic;
 }
+
+.not-allowed {
+  color: #e74c3c;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
 </style>

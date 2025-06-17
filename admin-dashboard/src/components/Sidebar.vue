@@ -1,24 +1,32 @@
 <template>
   <div class="sidebar">
-    <router-link to="/" class="btn-link">Dashboard</router-link>
-    <router-link to="/users" class="btn-link">Usuários</router-link>
-    <router-link to="/settings" class="btn-link">Configurações</router-link>
 
+    <li class="btn-link" v-if="isAdmin">
+      <router-link to="/" class="btn-link">Dashboard</router-link>
+      <router-link to="/users">Usuários</router-link>
+      <router-link to="/settings" class="btn-link">Configurações</router-link>
+      <router-link to="/products" class="btn-link">Produtos</router-link>
+
+    </li>
     <div class="spacer"></div>
 
-    <button class="btn-logout" @click="logout">Sair</button>
+    <!-- <button class="btn-logout" @click="logout">Sair</button> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
-function logout() {
-  localStorage.removeItem('loggedIn')
-  router.push('/login')
-}
+// function logout() {
+//   localStorage.removeItem('loggedIn')
+//   router.push('/login')
+// }
+
+import { useAuth } from '../auth/useAuth'
+
+const { isAdmin } = useAuth()
 </script>
 
 <style scoped>
@@ -58,7 +66,7 @@ function logout() {
 .btn-logout {
   padding: 10px 16px;
   margin: 40px;
-  background-color: #e74c3c;
+  background-color: #1abc9c;
   color: white;
   border: none;
   border-radius: 4px;

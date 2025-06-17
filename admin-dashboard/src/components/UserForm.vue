@@ -1,63 +1,95 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="user-form">
+  <form @submit.prevent="handleSubmit">
     <div class="form-group">
-      <label for="name">Nome</label>
-      <input type="text" id="name" v-model="name" required />
+      <label>Nome</label>
+      <input v-model="form.name" required placeholder="Digite seu nome" />
     </div>
+
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" v-model="email" :readonly="isEditing" required />
+      <label >Email</label>
+      <input v-model="form.email" type="email" required :readonly="isEditing" placeholder="Digite seu Email" />
+    </div>
+
+    <div class="form-group">
+      <label>Senha</label>
+      <input
+        v-model="form.password"
+        type="password"
+        required
+        placeholder="Digite a senha"
+      />
+    </div>
+     <div class="form-group">
+ <select v-model="form.role">
+  <option value="user">Usuário Padrão</option>
+  <option value="admin">Administrador</option>
+</select>
+
     </div>
     <div class="buttons">
-      <button type="submit">{{ isEditing ? 'Atualizar' : 'Adicionar' }}</button>
-      <button type="button" @click="$emit('cancel')">Cancelar</button>
+    <button type="submit">{{ isEditing ? 'Salvar' : 'Adicionar' }}</button>
+    <button type="button" @click="$emit('cancel')">Cancelar</button>
     </div>
+   
+   
   </form>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { reactive, watch, computed } from 'vue'
 
 interface User {
   name: string
   email: string
+  password: string
+  role: 'admin' | 'user'
 }
 
-const props = defineProps<{ initialUser?: User }>()
+
+const props = defineProps<{
+  initialUser?: User
+}>()
+
 const emit = defineEmits<{
   (e: 'add', user: User): void
   (e: 'update', user: User): void
   (e: 'cancel'): void
 }>()
 
-const name = ref('')
-const email = ref('')
-
-const isEditing = computed(() => !!props.initialUser)
+const form = reactive<User>({
+  name: '',
+  email: '',
+  password: '',
+  role: 'user'
+})
 
 watch(
   () => props.initialUser,
   (user) => {
     if (user) {
-      name.value = user.name
-      email.value = user.email
+      form.name = user.name
+      form.email = user.email
+      form.password = user.password ?? ''
     } else {
-      name.value = ''
-      email.value = ''
+      form.name = ''
+      form.email = ''
+      form.password = ''
     }
   },
   { immediate: true }
 )
 
+const isEditing = computed(() => !!props.initialUser)
+
 function handleSubmit() {
-  const user: User = { name: name.value, email: email.value }
   if (isEditing.value) {
-    emit('update', user)
+    emit('update', { ...form })
   } else {
-    emit('add', user)
+    emit('add', { ...form })
   }
 }
 </script>
+
 
 <style scoped>
 .user-form {
@@ -84,16 +116,16 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-button[type='submit'] {
-  background-color: #2ecc71;
+button[type='submit'] { 
+  background-color: #1abc9c;
 }
 button[type='submit']:hover {
-  background-color: #27ae60;
+  background-color: #16a085;
 }
 button[type='button'] {
-  background-color: #95a5a6;
+  background-color: #8f8d8d;
 }
 button[type='button']:hover {
-  background-color: #7f8c8d;
+  background-color: #7c7878;
 }
 </style>

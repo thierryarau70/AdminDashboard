@@ -1,7 +1,9 @@
 <template>
   <div class="users-container">
     <h2>Usuários</h2>
-    <button @click="openNewUserForm">Novo Usuário</button>
+
+    <!-- Apenas administradores veem o botão de novo usuário -->
+    <button v-if="isAdmin" @click="openNewUserForm">Novo Usuário</button>
 
     <UserForm
       v-if="showForm"
@@ -11,32 +13,43 @@
       @cancel="cancelForm"
     />
 
-    <UserTable :users="users" @delete="handleDeleteUser" @edit="openEditUserForm" />
+    <!-- Mostra apenas a tabela filtrada -->
+    <UserTable :users="filteredUsers" @delete="handleDeleteUser" @edit="openEditUserForm" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import UserForm from '../components/UserForm.vue'
 import UserTable from '../components/UserTable.vue'
+import { useAuth } from '../auth/useAuth'
 
 interface User {
   name: string
   email: string
+  password: string
+  role: 'admin' | 'user'
 }
 
 const users = ref<User[]>([])
 const showForm = ref(false)
 const editingUser = ref<User | undefined>(undefined)
 
-// E ajuste os métodos:
+// Auth
+const { isAdmin, user: currentUser } = useAuth()
+
+// Lista de usuários visíveis
+const filteredUsers = computed(() => {
+  return isAdmin ? users.value : users.value.filter(u => u.email === currentUser.email)
+})
+
 function openNewUserForm() {
   editingUser.value = undefined
   showForm.value = true
 }
 
 function openEditUserForm(user: User) {
-  editingUser.value = { ...user }
+  editingUser.value = { ...user, password: '' }
   showForm.value = true
 }
 
@@ -52,7 +65,9 @@ watch(users, (newUsers) => {
 }, { deep: true })
 
 function handleAddUser(newUser: User) {
-  users.value.push(newUser)
+  if (isAdmin) {
+    users.value.push(newUser)
+  }
   showForm.value = false
 }
 
@@ -65,7 +80,9 @@ function handleUpdateUser(updatedUser: User) {
 }
 
 function handleDeleteUser(email: string) {
-  users.value = users.value.filter((u) => u.email !== email)
+  if (isAdmin) {
+    users.value = users.value.filter((u) => u.email !== email)
+  }
 }
 
 function cancelForm() {
@@ -80,13 +97,13 @@ function cancelForm() {
 button {
   margin-bottom: 12px;
   padding: 10px 16px;
-  background-color: #3498db;
+  background-color: #1abc9c;
   border: none;
   color: white;
   border-radius: 6px;
   cursor: pointer;
 }
 button:hover {
-  background-color: #2980b9;
+  background-color: #16a085;
 }
 </style>

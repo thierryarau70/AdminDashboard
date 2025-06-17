@@ -72,17 +72,22 @@ function register() {
     return
   }
 
-  users.push({ email: email.value, password: password.value , name: name.value })
+  users.push({
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    role: 'user'
+  })
   localStorage.setItem('users', JSON.stringify(users))
 
   error.value = false
   success.value = true
 
-  // Redireciona após 1s
   setTimeout(() => {
     router.push('/login')
   }, 1000)
 }
+
 </script>
 
 <style scoped>
