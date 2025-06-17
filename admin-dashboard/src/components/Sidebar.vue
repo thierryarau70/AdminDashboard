@@ -1,13 +1,18 @@
 <template>
   <div class="sidebar">
+    <router-link to="/" class="btn-link">Dashboard</router-link>
+    
+    <router-link
+      v-if="isAdmin"
+      to="/users"
+      class="btn-link"
+    >
+      Usuários
+    </router-link>
+    
+    <router-link to="/settings" class="btn-link">Configurações</router-link>
+    <router-link to="/products" class="btn-link">Produtos</router-link>
 
-    <li class="btn-link" v-if="isAdmin">
-      <router-link to="/" class="btn-link">Dashboard</router-link>
-      <router-link to="/users">Usuários</router-link>
-      <router-link to="/settings" class="btn-link">Configurações</router-link>
-      <router-link to="/products" class="btn-link">Produtos</router-link>
-
-    </li>
     <div class="spacer"></div>
 
     <!-- <button class="btn-logout" @click="logout">Sair</button> -->
@@ -15,15 +20,6 @@
 </template>
 
 <script setup lang="ts">
-// import { useRouter } from 'vue-router'
-
-// const router = useRouter()
-
-// function logout() {
-//   localStorage.removeItem('loggedIn')
-//   router.push('/login')
-// }
-
 import { useAuth } from '../auth/useAuth'
 
 const { isAdmin } = useAuth()
